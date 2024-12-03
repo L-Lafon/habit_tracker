@@ -20,6 +20,9 @@ class Completion
     #[ORM\Column]
     private ?bool $status = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Habit $habit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +48,18 @@ class Completion
     public function setStatus(bool $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getHabit(): ?Habit
+    {
+        return $this->habit;
+    }
+
+    public function setUser(?Habit $habit): static
+    {
+        $this->habit = $habit;
 
         return $this;
     }

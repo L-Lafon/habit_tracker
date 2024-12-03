@@ -4,9 +4,11 @@ use App\Entity\Habit;
 use PHPUnit\Framework\TestCase;
 
 use function PHPUnit\Framework\assertSame;
+use function PHPUnit\Framework\assertInstanceOf;
 
 final class HabitTest extends TestCase
 {
+
     public function testHabitCreate(): void
     {
         $values = [
@@ -24,10 +26,18 @@ final class HabitTest extends TestCase
         $habit->setScoreChartPeriod($values["scoreChartPeriod"]);
         $habit->setHistoryChartPeriod($values["historyChartPeriod"]);
 
+        assertInstanceOf(Habit::class, $habit);
         assertSame($values["name"], $habit->getName());
         assertSame($values["frequency"], $habit->getFrequency());
         assertSame($values["color"], $habit->getColor());
         assertSame($values["scoreChartPeriod"], $habit->getScoreChartPeriod());
         assertSame($values["historyChartPeriod"], $habit->getHistoryChartPeriod());
     }
+
+/* 
+    public function testColorMustBeInHexadecimalFormat(): void
+    {
+
+    } 
+    */
 }

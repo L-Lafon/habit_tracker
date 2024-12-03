@@ -4,18 +4,23 @@ use App\Entity\Completion;
 use PHPUnit\Framework\TestCase;
 
 use function PHPUnit\Framework\assertSame;
+use function PHPUnit\Framework\assertInstanceOf;
 
 final class CompletionTest extends TestCase
 {
     public function testCompletionCreate(): void
     {
-        $date = new DateTime();
+        $values = [
+            "date" => new DateTime(),
+            "status" => true
+        ];
 
         $completion = new Completion();
-        $completion->setDate($date);
-        $completion->setStatus(true);
+        $completion->setDate($values["date"]);
+        $completion->setStatus($values["status"]);
 
-        assertSame($date, $completion->getDate());
-        assertSame(true, $completion->getStatus());
+        assertInstanceOf(Completion::class, $completion);
+        assertSame($values["date"], $completion->getDate());
+        assertSame($values["status"], $completion->getStatus());
     }
 }

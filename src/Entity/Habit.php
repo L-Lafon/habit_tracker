@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\HabitRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HabitRepository::class)]
 class Habit
@@ -21,6 +22,10 @@ class Habit
     private ?string $frequency = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern: '/#[0-9A-Fa-f]{6}/',
+        message: 'The habit color must be written in hexadecimal format',
+    )]
     private ?string $color = null;
 
     #[ORM\Column(length: 1)]
@@ -31,6 +36,9 @@ class Habit
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?User $user = null;
 
 
     public function getId(): ?int
@@ -106,6 +114,18 @@ class Habit
     public function setCreationDate(\DateTimeInterface $creationDate): static
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
